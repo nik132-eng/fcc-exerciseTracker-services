@@ -18,6 +18,11 @@ let exerciseData = [];
 function generateUserId() {
   return "_" + Math.random().toString(36).substr(2, 16);
 }
+// Function to generate a unique ID
+function generateExerciseId() {
+  return "_" + Math.random().toString(36).substr(2, 16);
+}
+
 
 app.post("/api/users", (req, res) => {
   const { username } = req.body;
@@ -51,16 +56,13 @@ app.post("/api/users/:_id/exercises", (req, res) => {
 
   // Create a new exercise object
   const newExercise = {
-    _id: userId,
+    _id: generateExerciseId(), // Generate a unique exercise ID
+    userId: userId, // User ID associated with the exercise
     username: username,
     date: formattedDate,
     duration: duration,
     description: description
   };
-
-  if (!exerciseData[userId]) {
-    exerciseData[userId] = [];
-  }
 
   exerciseData[userId].push(newExercise);
 
