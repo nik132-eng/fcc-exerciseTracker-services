@@ -70,14 +70,15 @@ app.post("/api/users/:_id/exercises", (req, res) => {
 
   exerciseData[userId].push(newExercise);
 
-  // Update the user object with the exercise fields added
-  const updatedUser = {
-    _id: userId,
-    username: username,
-    exercises: exerciseData[userId] // Add the exercises array to the user object
+  const response = {
+    _id:userId, 
+    username: user.username,
+    date: new Date(exercise.date).toDateString(),
+    duration: parseInt(exercise.duration),
+    description: exercise.description
   };
 
-  res.status(200).json(updatedUser);
+  res.status(200).json(response);
 });
 
 app.get("/api/users/:_id/logs", (req, res) => {
