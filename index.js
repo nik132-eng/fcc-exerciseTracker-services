@@ -73,6 +73,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
     username: username,
     exercise: exerciseData[userId]
   };
+  console.log("🚀 ~ app.post ~ updatedUser:", updatedUser)
 
   res.status(200).json(updatedUser);
 });
