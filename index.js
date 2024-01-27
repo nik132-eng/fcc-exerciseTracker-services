@@ -58,11 +58,11 @@ app.post("/api/users/:_id/exercises", (req, res) => {
     description: description
   };
 
-  if (!exerciseData[userId]) {
-    exerciseData[userId] = [];
-  }
+  // if (!exerciseData[userId]) {
+  //   exerciseData[userId] = [];
+  // }
 
-  exerciseData[userId].push(newExercise);
+  // exerciseData[userId].push(newExercise);
 
   res.status(200).send(newExercise);
 });
