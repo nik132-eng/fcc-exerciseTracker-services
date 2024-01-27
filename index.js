@@ -73,7 +73,13 @@ app.post("/api/users/:_id/exercises", (req, res) => {
     _id: userId
   };
 
-  res.status(200).json(updatedUser);
+  res.status(200).json({
+    username: username,
+    description: req.fields.description,
+    duration: req.fields.duration,
+    date: date.toDateString(),
+    _id: userFound._id
+  });
 });
 
 app.get("/api/users/:_id/logs", (req, res) => {
