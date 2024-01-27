@@ -47,10 +47,6 @@ app.post("/api/users/:_id/exercises", (req, res) => {
 
   const username = getusername(userId);
 
-  if (!description || !duration) {
-    return res.status(400).json({ error: "Description and duration are required." });
-  }
-
   const formattedDate = date ? new Date(date).toDateString() : new Date().toDateString();
 
   // Create a new exercise object
