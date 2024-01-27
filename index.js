@@ -57,8 +57,6 @@ app.post("/api/users/:_id/exercises", (req, res) => {
 
   // Create a new exercise object
   const newExercise = {
-    _id: generateUserId(),
-    username: username,
     date: formattedDate,
     duration: parseInt(duration),
     description: description
@@ -70,15 +68,13 @@ app.post("/api/users/:_id/exercises", (req, res) => {
 
   exerciseData[userId].push(newExercise);
 
-  const response = {
-    _id:userId, 
-    username: user.username,
-    date: new Date(exercise.date).toDateString(),
-    duration: parseInt(exercise.duration),
-    description: exercise.description
+  const updatedUser = {
+    _id: userId,
+    username: username,
+    exercises: exerciseData[userId] // Add the exercises array to the user object
   };
 
-  res.status(200).json(response);
+  res.status(200).json(updatedUser);
 });
 
 app.get("/api/users/:_id/logs", (req, res) => {
