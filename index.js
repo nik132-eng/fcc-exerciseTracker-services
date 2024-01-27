@@ -60,7 +60,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
     _id: generateUserId(),
     username: username,
     date: formattedDate,
-    duration: duration,
+    duration: parseInt(duration),
     description: description
   };
 
@@ -104,7 +104,7 @@ app.get("/api/users/:_id/logs", (req, res) => {
 
   const log = filteredExercises.map(exercise => ({
     description: exercise.description,
-    duration: exercise.duration,
+    duration: parseInt(exercise.duration),
     date: new Date(exercise.date).toDateString() // Convert to dateString format
   }));
 
