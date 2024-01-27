@@ -43,7 +43,7 @@ function getusername(userId) {
 
 app.post("/api/users/:_id/exercises", (req, res) => {
   const userId = req.params._id;
-  const { description, duration, date } = req.body;
+  const { description, duration, date } = req.params;
   console.log("🚀 ~ app.post ~ date:", date)
 
   const username = getusername(userId);
