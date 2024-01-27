@@ -52,6 +52,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   const { description, duration, date } = req.body;
 
   const username = getusername(userId);
+  console.log("🚀 ~ app.post ~ username:", username)
 
   const formattedDate = date ? new Date(date).toDateString() : new Date().toDateString();
 
@@ -70,7 +71,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   const updatedUser = {
     _id: userId,
     username: username,
-    exercises: exerciseData[userId]
+    exercise: exerciseData[userId]
   };
 
   res.status(200).json(updatedUser);
