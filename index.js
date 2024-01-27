@@ -55,7 +55,6 @@ app.post("/api/users/:_id/exercises", (req, res) => {
 
   const formattedDate = date ? new Date(date).toDateString() : new Date().toDateString();
 
-  // Create a new exercise object
   const newExercise = {
     date: formattedDate,
     duration: parseInt(duration),
@@ -71,7 +70,7 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   const updatedUser = {
     _id: userId,
     username: username,
-    exercises: exerciseData[userId] // Add the exercises array to the user object
+    exercises: newExercise
   };
 
   res.status(200).json(updatedUser);
