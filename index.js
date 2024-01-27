@@ -69,17 +69,11 @@ app.post("/api/users/:_id/exercises", (req, res) => {
 
   const updatedUser = {
     username: username,
-    exercises: newExercise,
+    exercises: exerciseData[userId],
     _id: userId
   };
 
-  res.status(200).json({
-    username: username,
-    description: req.fields.description,
-    duration: req.fields.duration,
-    date: date.toDateString(),
-    _id: userFound._id
-  });
+  res.status(200).json(updatedUser);
 });
 
 app.get("/api/users/:_id/logs", (req, res) => {
