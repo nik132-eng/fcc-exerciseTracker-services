@@ -56,9 +56,9 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   const formattedDate = date ? new Date(date).toDateString() : new Date().toDateString();
 
   const newExercise = {
-    description: description,
+    date: formattedDate,
     duration: parseInt(duration),
-    date: formattedDate
+    description: description
   };
 
   if (!exerciseData[userId]) {
@@ -68,9 +68,9 @@ app.post("/api/users/:_id/exercises", (req, res) => {
   exerciseData[userId].push(newExercise);
 
   const updatedUser = {
+    _id: userId,
     username: username,
-    exercises: exerciseData[userId],
-    _id: userId
+    exercises: exerciseData[userId]
   };
 
   res.status(200).json(updatedUser);
