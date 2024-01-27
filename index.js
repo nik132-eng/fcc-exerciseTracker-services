@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(cors());
@@ -43,7 +44,7 @@ function getusername(userId) {
 
 app.post("/api/users/:_id/exercises", (req, res) => {
   const userId = req.params._id;
-  const { description, duration, date } = req.params;
+  const { description, duration, date } = req.body;
 
   const username = getusername(userId);
 
