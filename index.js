@@ -20,6 +20,11 @@ function generateUserId() {
   return "_" + Math.random().toString(36).substr(2, 16);
 }
 
+app.get("/api/users",(req, res)=>{
+  const formattedUsers = users.map(user => ({ _id: user._id, username: user.username }));
+  res.status(200).json(formattedUsers);
+})
+
 app.post("/api/users", (req, res) => {
   const { username } = req.body;
   const userId = generateUserId();
@@ -52,20 +57,27 @@ app.post("/api/users/:_id/exercises", (req, res) => {
 
   // Create a new exercise object
   const newExercise = {
-    _id: userId,
+    _id: generateUserId(),
     username: username,
     date: formattedDate,
     duration: duration,
     description: description
   };
 
-  // if (!exerciseData[userId]) {
-  //   exerciseData[userId] = [];
-  // }
+  if (!exerciseData[userId]) {
+    exerciseData[userId] = [];
+  }
 
-  // exerciseData[userId].push(newExercise);
+  exerciseData[userId].push(newExercise);
 
-  res.status(200).send(newExercise);
+  // Update the user object with the exercise fields added
+  const updatedUser = {
+    _id: userId,
+    username: username,
+    exercises: exerciseData[userId] // Add the exercises array to the user object
+  };
+
+  res.status(200).json(updatedUser);
 });
 
 app.get("/api/users/:_id/logs", (req, res) => {
@@ -73,24 +85,33 @@ app.get("/api/users/:_id/logs", (req, res) => {
   const { from, to, limit } = req.query;
 
   const userExercises = exerciseData[userId] || [];
-  let filteredExercises = userExercises;
-
-  if (from && to) {
-    filteredExercises = filteredExercises.filter(exercise => {
+  
+  // Apply filters based on from and to dates if provided
+  let filteredExercises = userExercises.filter(exercise => {
+    if (from && to) {
+      const fromDate = new Date(from);
+      const toDate = new Date(to);
       const exerciseDate = new Date(exercise.date);
-      return exerciseDate >= new Date(from) && exerciseDate <= new Date(to);
-    });
-  }
-
+      return exerciseDate >= fromDate && exerciseDate <= toDate;
+    }
+    return true; // Return all exercises if no from and to dates provided
+  });
+  
+  // Apply limit if provided
   if (limit) {
     filteredExercises = filteredExercises.slice(0, parseInt(limit));
   }
 
+  const log = filteredExercises.map(exercise => ({
+    description: exercise.description,
+    duration: exercise.duration,
+    date: new Date(exercise.date).toDateString() // Convert to dateString format
+  }));
+
   res.status(200).json({
     _id: userId,
-    username: getusername(userId),
-    count: filteredExercises.length,
-    log: filteredExercises
+    count: log.length,
+    log: log
   });
 });
 
